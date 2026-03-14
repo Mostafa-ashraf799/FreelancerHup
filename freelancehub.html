@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceHub — منصتك الشاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #0f0f1a;
+    --card: #13131f;
+    --card2: #1a1a2e;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f7971e;
+    --text: #e8e8f0;
+    --text2: #9090b0;
+    --border: rgba(108,99,255,0.15);
+    --glow: rgba(108,99,255,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-follower {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(108,99,255,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+  }
+
+  /* Noise Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent3); -webkit-text-fill-color: var(--accent3); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none; font-size: 0.95rem;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; right: 0;
+    width: 0; height: 1.5px; background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), #9c35ff);
+    border: none; color: white; padding: 0.6rem 1.5rem;
+    border-radius: 50px; font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem; font-weight: 600; cursor: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(108,99,255,0.4);
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(108,99,255,0.6); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 6rem 5% 4rem;
+  }
+
+  /* Animated grid bg */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(108,99,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,99,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  /* Orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); pointer-events: none;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(108,99,255,0.2); top: -100px; right: -100px; }
+  .orb2 { width: 300px; height: 300px; background: rgba(255,101,132,0.15); bottom: -50px; left: -50px; animation-delay: -3s; }
+  .orb3 { width: 200px; height: 200px; background: rgba(67,233,123,0.1); top: 40%; left: 30%; animation-delay: -6s; }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 30px) scale(0.95); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 900px; text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.3);
+    padding: 0.4rem 1rem; border-radius: 50px;
+    font-size: 0.85rem; color: var(--accent); margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .hero h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.1;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+  .hero h1 .line1 { display: block; color: var(--text); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradientShift 3s linear infinite, fadeInUp 0.6s 0.1s ease both;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .hero p {
+    font-size: 1.15rem; color: var(--text2);
+    max-width: 600px; margin: 0 auto 2.5rem;
+    line-height: 1.8;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeInUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #9c35ff);
+    color: white; border: none; padding: 0.9rem 2.2rem;
+    border-radius: 50px; font-family: 'Cairo', sans-serif;
+    font-size: 1rem; font-weight: 600; cursor: none;
+    box-shadow: 0 0 30px rgba(108,99,255,0.4);
+    transition: all 0.3s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(108,99,255,0.6); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); padding: 0.9rem 2.2rem;
+    border-radius: 50px; font-family: 'Cairo', sans-serif;
+    font-size: 1rem; font-weight: 600; cursor: none;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.05); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; justify-content: center; margin-top: 4rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.6s 0.4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--text2); margin-top: 0.2rem; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 6rem 5%; position: relative; }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(108,99,255,0.08);
+    border-radius: 4px;
+    border-right: 3px solid var(--accent);
+  }
+  .section-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800; margin-bottom: 1rem; line-height: 1.2;
+  }
+  .section-sub { color: var(--text2); font-size: 1.05rem; line-height: 1.8; max-width: 600px; }
+
+  /* FEATURES */
+  .features { background: var(--bg2); }
+  .features-header { text-align: center; margin-bottom: 4rem; }
+  .features-header .section-sub { margin: 0 auto; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute;
+    top: 0; right: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(108,99,255,0.05), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .feature-card:hover { transform: translateY(-5px); border-color: rgba(108,99,255,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+  }
+  .icon-purple { background: rgba(108,99,255,0.15); }
+  .icon-pink { background: rgba(255,101,132,0.15); }
+  .icon-green { background: rgba(67,233,123,0.15); }
+  .icon-orange { background: rgba(247,151,30,0.15); }
+  .icon-blue { background: rgba(67,179,255,0.15); }
+  .icon-teal { background: rgba(0,206,209,0.15); }
+
+  .feature-card h3 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.7rem;
+  }
+  .feature-card p { color: var(--text2); font-size: 0.92rem; line-height: 1.7; }
+
+  .feature-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(156,53,255,0.05));
+    border-color: rgba(108,99,255,0.3);
+  }
+  .feature-card.featured .feature-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+  }
+  .mini-dashboard {
+    background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1rem;
+    border: 1px solid rgba(108,99,255,0.2);
+  }
+  .mini-client {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.6rem; border-radius: 8px; margin-bottom: 0.5rem;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.2s;
+  }
+  .mini-client:hover { background: rgba(108,99,255,0.1); }
+  .client-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700;
+  }
+  .av1 { background: linear-gradient(135deg, #6c63ff, #9c35ff); }
+  .av2 { background: linear-gradient(135deg, #ff6584, #ff4757); }
+  .av3 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  .client-info { flex: 1; }
+  .client-name { font-size: 0.82rem; font-weight: 600; }
+  .client-project { font-size: 0.73rem; color: var(--text2); }
+  .client-status {
+    font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 50px;
+  }
+  .status-active { background: rgba(67,233,123,0.15); color: var(--accent3); }
+  .status-review { background: rgba(247,151,30,0.15); color: var(--accent4); }
+  .status-pending { background: rgba(108,99,255,0.15); color: var(--accent); }
+
+  /* HOW IT WORKS */
+  .how { background: var(--bg); }
+  .how-content { max-width: 1100px; margin: 0 auto; }
+  .how-header { margin-bottom: 4rem; }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem; position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute; top: 40px; right: 10%; left: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    opacity: 0.3;
+  }
+  .step { text-align: center; position: relative; }
+  .step-num {
+    width: 80px; height: 80px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    position: relative;
+  }
+  .step-num::before {
+    content: ''; position: absolute; inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    z-index: -1;
+  }
+  .step-num::after {
+    content: ''; position: absolute; inset: 0;
+    border-radius: 50%;
+    background: var(--bg2);
+    z-index: -1;
+  }
+  .step h3 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;
+  }
+  .step p { color: var(--text2); font-size: 0.88rem; line-height: 1.6; }
+
+  /* CHATBOT SECTION */
+  .chatbot-section { background: var(--bg2); }
+  .chatbot-container {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .chat-demo {
+    background: var(--card); border-radius: 24px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+  .chat-header {
+    background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(156,53,255,0.1));
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .chat-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .chat-title { font-weight: 700; font-size: 0.95rem; }
+  .chat-online { font-size: 0.75rem; color: var(--accent3); }
+  .chat-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .msg {
+    max-width: 80%; padding: 0.8rem 1rem; border-radius: 14px;
+    font-size: 0.88rem; line-height: 1.6; animation: msgIn 0.3s ease;
+  }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .msg-bot {
+    background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 14px 14px 14px 4px;
+    align-self: flex-start;
+  }
+  .msg-user {
+    background: linear-gradient(135deg, rgba(108,99,255,0.25), rgba(156,53,255,0.15));
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 14px 14px 4px 14px;
+    align-self: flex-end;
+  }
+  .chat-options { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0 1.5rem 1.5rem; }
+  .chat-opt {
+    background: rgba(108,99,255,0.08); border: 1px solid rgba(108,99,255,0.25);
+    color: var(--accent); padding: 0.4rem 0.9rem; border-radius: 50px;
+    font-size: 0.8rem; cursor: none; transition: all 0.2s; font-family: 'Cairo', sans-serif;
+  }
+  .chat-opt:hover { background: rgba(108,99,255,0.2); transform: translateY(-1px); }
+  .chat-input-area {
+    padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+    display: flex; gap: 0.5rem;
+  }
+  .chat-input {
+    flex: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    border-radius: 50px; padding: 0.6rem 1rem; color: var(--text);
+    font-family: 'Cairo', sans-serif; font-size: 0.85rem; outline: none;
+  }
+  .chat-send {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #9c35ff);
+    border: none; cursor: none; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.9rem; transition: transform 0.2s;
+  }
+  .chat-send:hover { transform: scale(1.1); }
+
+  /* COMPETITIONS */
+  .competitions { background: var(--bg); }
+  .comp-header { max-width: 1100px; margin: 0 auto 3rem; }
+  .comp-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+  }
+  .comp-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .comp-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-color: rgba(108,99,255,0.4); }
+  .comp-banner {
+    height: 100px; display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; position: relative; overflow: hidden;
+  }
+  .comp-banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.3));
+  }
+  .banner-purple { background: linear-gradient(135deg, #6c63ff33, #9c35ff33); }
+  .banner-pink { background: linear-gradient(135deg, #ff658433, #ff475733); }
+  .banner-green { background: linear-gradient(135deg, #43e97b33, #38f9d733); }
+  .comp-body { padding: 1.5rem; }
+  .comp-title { font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .comp-desc { color: var(--text2); font-size: 0.87rem; line-height: 1.6; margin-bottom: 1rem; }
+  .comp-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .comp-tag {
+    font-size: 0.75rem; padding: 0.25rem 0.7rem; border-radius: 50px;
+  }
+  .tag-design { background: rgba(108,99,255,0.1); color: var(--accent); border: 1px solid rgba(108,99,255,0.2); }
+  .tag-dev { background: rgba(67,233,123,0.1); color: var(--accent3); border: 1px solid rgba(67,233,123,0.2); }
+  .tag-marketing { background: rgba(247,151,30,0.1); color: var(--accent4); border: 1px solid rgba(247,151,30,0.2); }
+  .comp-footer { display: flex; align-items: center; justify-content: space-between; }
+  .comp-prize { font-family: 'Tajawal', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--accent3); }
+  .comp-prize span { font-size: 0.75rem; color: var(--text2); font-family: 'Cairo', sans-serif; }
+  .comp-btn {
+    background: transparent; border: 1px solid rgba(108,99,255,0.3);
+    color: var(--accent); padding: 0.45rem 1rem; border-radius: 50px;
+    font-family: 'Cairo', sans-serif; font-size: 0.82rem; cursor: none;
+    transition: all 0.2s;
+  }
+  .comp-btn:hover { background: var(--accent); color: white; }
+
+  /* LEARNING */
+  .learning { background: var(--bg2); }
+  .learning-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center; }
+  .roadmap-preview { position: relative; }
+  .roadmap-node {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 0.8rem;
+    transition: all 0.2s; position: relative;
+  }
+  .roadmap-node::before {
+    content: ''; position: absolute;
+    right: -1px; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 80%;
+    border-radius: 0 14px 14px 0;
+  }
+  .node-done::before { background: var(--accent3); }
+  .node-active::before { background: var(--accent); }
+  .node-todo::before { background: var(--border); }
+  .node-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .node-done .node-icon { background: rgba(67,233,123,0.15); }
+  .node-active .node-icon { background: rgba(108,99,255,0.15); }
+  .node-todo .node-icon { background: rgba(144,144,176,0.1); }
+  .node-info { flex: 1; }
+  .node-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .node-sub { font-size: 0.78rem; color: var(--text2); }
+  .node-progress { font-size: 0.78rem; }
+  .progress-done { color: var(--accent3); }
+  .progress-active { color: var(--accent); }
+  .progress-bar {
+    height: 4px; background: rgba(255,255,255,0.05);
+    border-radius: 4px; margin-top: 0.4rem; overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 4px; }
+  .fill-done { background: var(--accent3); width: 100%; }
+  .fill-active { background: var(--accent); width: 60%; animation: progressAnim 2s ease infinite; }
+  @keyframes progressAnim { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+  /* PORTFOLIO */
+  .portfolio { background: var(--bg); }
+  .portfolio-header { max-width: 1100px; margin: 0 auto 3rem; }
+  .portfolio-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1rem; max-width: 1100px; margin: 0 auto;
+  }
+  .port-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; transition: all 0.3s;
+    position: relative;
+  }
+  .port-card:hover { transform: translateY(-4px) scale(1.01); border-color: rgba(108,99,255,0.4); }
+  .port-card.big { grid-column: span 2; grid-row: span 2; }
+  .port-thumb {
+    width: 100%; aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; position: relative;
+  }
+  .port-card.big .port-thumb { font-size: 4rem; }
+  .t1 { background: linear-gradient(135deg, #6c63ff22, #9c35ff22); }
+  .t2 { background: linear-gradient(135deg, #ff658422, #ff475722); }
+  .t3 { background: linear-gradient(135deg, #43e97b22, #38f9d722); }
+  .t4 { background: linear-gradient(135deg, #f7971e22, #ffd20022); }
+  .t5 { background: linear-gradient(135deg, #4facfe22, #00f2fe22); }
+  .port-info { padding: 0.8rem 1rem; }
+  .port-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .port-user { font-size: 0.75rem; color: var(--text2); }
+
+  /* CTA */
+  .cta-section {
+    background: var(--bg2); text-align: center; padding: 6rem 5%;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(108,99,255,0.15), transparent 70%);
+  }
+  .cta-section h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800; margin-bottom: 1rem;
+    position: relative;
+  }
+  .cta-section p { color: var(--text2); font-size: 1.1rem; margin-bottom: 2rem; position: relative; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg); border-top: 1px solid var(--border);
+    padding: 3rem 5%; text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Tajawal', sans-serif; font-size: 1.8rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem; display: block;
+  }
+  footer p { color: var(--text2); font-size: 0.9rem; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .feature-card.featured { grid-column: span 1; }
+    .feature-card.featured .feature-inner { grid-template-columns: 1fr; }
+    .chatbot-container { grid-template-columns: 1fr; }
+    .learning-container { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .port-card.big { grid-column: span 2; }
+    nav .nav-links { display: none; }
+    .steps::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="follower"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Freelance<span>Hub</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">الخصائص</a></li>
+    <li><a href="#how">كيف تعمل</a></li>
+    <li><a href="#competitions">المسابقات</a></li>
+    <li><a href="#learning">التعلم</a></li>
+  </ul>
+  <button class="nav-cta">ابدأ مجاناً</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      المنصة الأولى للفريلانسرز في الوطن العربي
+    </div>
+
+    <h1>
+      <span class="line1">كل أدواتك في</span>
+      <span class="line2">مكان واحد</span>
+    </h1>
+
+    <p>
+      أدِر عملاءك، تعلّم مهارات جديدة، شارك في مسابقات، وابنِ محفظة أعمالك — كل ده في منصة واحدة مصممة ليك.
+    </p>
+
+    <div class="hero-btns">
+      <button class="btn-primary">ابدأ مجاناً الآن ←</button>
+      <button class="btn-secondary">شوف كيف تعمل</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" data-target="5000">0</div>
+        <div class="stat-label">فريلانسر نشط</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-target="120">0</div>
+        <div class="stat-label">مسابقة شهرياً</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-target="30">0</div>
+        <div class="stat-label">مسار تعليمي</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-target="98">0</div>
+        <div class="stat-label">% رضا المستخدمين</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-header reveal">
+    <div class="section-tag">الخصائص</div>
+    <h2 class="section-title">كل حاجة محتاجها في مكان واحد</h2>
+    <p class="section-sub">جمعنا أفضل الأدوات وطوّرناها عشان تناسب احتياجاتك كفريلانسر عربي</p>
+  </div>
+
+  <div class="features-grid">
+
+    <!-- Featured Card -->
+    <div class="feature-card featured reveal">
+      <div class="feature-inner">
+        <div>
+          <div class="feature-icon icon-purple">👥</div>
+          <h3>إدارة العملاء الذكية</h3>
+          <p>لكل عميل ملف خاص بيه — تفاصيل المشروع، المهام، الباسووردز، الريمايندرز، وملف متصفح مخصص. خلّص فوضى الإيميلات للأبد.</p>
+          <br>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem;">
+            <span class="comp-tag tag-design">مهام</span>
+            <span class="comp-tag tag-dev">باسووردز</span>
+            <span class="comp-tag tag-marketing">ريمايندرز</span>
+          </div>
+        </div>
+        <div class="mini-dashboard">
+          <div style="font-size:0.75rem; color:var(--text2); margin-bottom:0.7rem; font-weight:600;">عملاؤك الحاليين</div>
+          <div class="mini-client">
+            <div class="client-avatar av1">أ</div>
+            <div class="client-info">
+              <div class="client-name">أحمد محمد</div>
+              <div class="client-project">موقع تجارة إلكترونية</div>
+            </div>
+            <span class="client-status status-active">نشط</span>
+          </div>
+          <div class="mini-client">
+            <div class="client-avatar av2">س</div>
+            <div class="client-info">
+              <div class="client-name">سارة علي</div>
+              <div class="client-project">تصميم هوية بصرية</div>
+            </div>
+            <span class="client-status status-review">مراجعة</span>
+          </div>
+          <div class="mini-client">
+            <div class="client-avatar av3">م</div>
+            <div class="client-info">
+              <div class="client-name">محمود خالد</div>
+              <div class="client-project">تطبيق موبايل</div>
+            </div>
+            <span class="client-status status-pending">قيد التنفيذ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-pink">💬</div>
+      <h3>التواصل مع العملاء</h3>
+      <p>تكلّم عملاءك مباشرة من جوا التطبيق — مش محتاج تتنقل بين إيميلات وواتساب وغيره.</p>
+    </div>
+
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-orange">🏆</div>
+      <h3>نظام المسابقات</h3>
+      <p>اعرف آخر المسابقات في مجالك، سجّل فيها، وشارك الناس فيها من مكان واحد.</p>
+    </div>
+
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-green">🤖</div>
+      <h3>شات بوت الذكاء الاصطناعي</h3>
+      <p>مساعد ذكي بيسألك عن اهتماماتك ويحدد مسارك المناسب — سواء كنت فريلانسر أو عايز تتعلم.</p>
+    </div>
+
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-blue">📚</div>
+      <h3>المسارات التعليمية</h3>
+      <p>رود ماب كاملة لكل مجال — من الصفر للاحتراف، متصممة خصيصاً للسوق العربي.</p>
+    </div>
+
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-teal">🗂️</div>
+      <h3>البورتفوليو العام</h3>
+      <p>اعرض شغلك على المنصة وخلّي كل الناس تشوفه — ابنِ سمعتك وجذب عملاء جدد.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-content">
+    <div class="how-header reveal">
+      <div class="section-tag">كيف تعمل</div>
+      <h2 class="section-title">ابدأ في 4 خطوات بسيطة</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">١</div>
+        <h3>سجّل وأجب على أسئلة بسيطة</h3>
+        <p>الشات بوت هيسألك عن خبرتك واهتماماتك عشان يخصص لك التجربة</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">٢</div>
+        <h3>اختر مسارك</h3>
+        <p>فريلانسر تريد تنظيم عملك؟ أو عايز تتعلم وتبدأ مجال جديد؟</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">٣</div>
+        <h3>استخدم الأدوات</h3>
+        <p>داشبورد متكامل لإدارة العملاء، التعلم، والمسابقات في مكان واحد</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">٤</div>
+        <h3>ابنِ بورتفوليوك</h3>
+        <p>اعرض أعمالك واجذب عملاء جدد من مجتمع المنصة</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHATBOT -->
+<section class="chatbot-section" id="chatbot">
+  <div class="chatbot-container">
+    <div class="reveal">
+      <div class="section-tag">المساعد الذكي</div>
+      <h2 class="section-title">مساعدك الشخصي بالذكاء الاصطناعي</h2>
+      <p class="section-sub">مش بس شات بوت عادي — ده مساعد بيفهم أهدافك ويرسم لك المسار الصح من أول يوم.</p>
+      <br><br>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div style="display:flex; gap:1rem; align-items:flex-start;">
+          <div style="width:40px; height:40px; background:rgba(108,99,255,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">🎯</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:0.2rem;">تحديد المسار</div>
+            <div style="color:var(--text2); font-size:0.88rem;">بيسألك عن اهتماماتك ويقترح أفضل مجال ليك</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem; align-items:flex-start;">
+          <div style="width:40px; height:40px; background:rgba(67,233,123,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">🗺️</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:0.2rem;">رود ماب مخصصة</div>
+            <div style="color:var(--text2); font-size:0.88rem;">خطة تعليمية مخصصة بناءً على وقتك وأهدافك</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem; align-items:flex-start;">
+          <div style="width:40px; height:40px; background:rgba(247,151,30,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">💡</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:0.2rem;">نصائح ذكية</div>
+            <div style="color:var(--text2); font-size:0.88rem;">متاح 24/7 للإجابة على أسئلتك ومساعدتك</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-demo reveal">
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div>
+          <div class="chat-title">FreelanceBot</div>
+          <div class="chat-online">● متاح الآن</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg msg-bot">أهلاً! 👋 أنا FreelanceBot، مساعدك الذكي. هل أنت فريلانسر حالياً؟</div>
+        <div class="msg msg-user">لأ، عايز أتعلم وأبدأ</div>
+        <div class="msg msg-bot">رائع! 🎉 ما المجال اللي بيهمك أكتر؟</div>
+      </div>
+      <div class="chat-options">
+        <button class="chat-opt" onclick="addMsg(this, 'تصميم جرافيك')">🎨 تصميم جرافيك</button>
+        <button class="chat-opt" onclick="addMsg(this, 'برمجة ويب')">💻 برمجة ويب</button>
+        <button class="chat-opt" onclick="addMsg(this, 'تسويق رقمي')">📱 تسويق رقمي</button>
+        <button class="chat-opt" onclick="addMsg(this, 'كتابة محتوى')">✍️ كتابة محتوى</button>
+      </div>
+      <div class="chat-input-area">
+        <input class="chat-input" placeholder="اكتب رسالتك..." id="chatInput">
+        <button class="chat-send" onclick="sendMsg()">←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITIONS -->
+<section class="competitions" id="competitions">
+  <div class="comp-header reveal">
+    <div class="section-tag">المسابقات</div>
+    <h2 class="section-title">مسابقات جديدة كل يوم</h2>
+    <p class="section-sub">اعرف آخر المسابقات في مجالك وشارك مع آلاف المحترفين</p>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-card reveal">
+      <div class="comp-banner banner-purple">🎨</div>
+      <div class="comp-body">
+        <div class="comp-title">مسابقة تصميم الشعارات 2025</div>
+        <div class="comp-desc">صمّم شعاراً لشركة ناشئة — أفضل 3 تصاميم تفوز بجوائز نقدية</div>
+        <div class="comp-meta">
+          <span class="comp-tag tag-design">تصميم</span>
+          <span class="comp-tag tag-design">جرافيك</span>
+        </div>
+        <div class="comp-footer">
+          <div class="comp-prize">5,000 ج.م <span>جائزة أولى</span></div>
+          <button class="comp-btn">اشترك الآن</button>
+        </div>
+      </div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-banner banner-green">💻</div>
+      <div class="comp-body">
+        <div class="comp-title">هاكاثون تطوير الويب</div>
+        <div class="comp-desc">48 ساعة لبناء تطبيق ويب مبتكر — فرصة للتعلم والفوز</div>
+        <div class="comp-meta">
+          <span class="comp-tag tag-dev">برمجة</span>
+          <span class="comp-tag tag-dev">ويب</span>
+        </div>
+        <div class="comp-footer">
+          <div class="comp-prize">10,000 ج.م <span>جائزة أولى</span></div>
+          <button class="comp-btn">اشترك الآن</button>
+        </div>
+      </div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-banner banner-pink">📱</div>
+      <div class="comp-body">
+        <div class="comp-title">تحدي التسويق الرقمي</div>
+        <div class="comp-desc">أنشئ حملة تسويقية ناجحة لمنتج حقيقي واعرض نتائجها</div>
+        <div class="comp-meta">
+          <span class="comp-tag tag-marketing">تسويق</span>
+          <span class="comp-tag tag-marketing">سوشيال</span>
+        </div>
+        <div class="comp-footer">
+          <div class="comp-prize">3,000 ج.م <span>جائزة أولى</span></div>
+          <button class="comp-btn">اشترك الآن</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING -->
+<section class="learning" id="learning">
+  <div class="learning-container">
+    <div class="reveal">
+      <div class="section-tag">التعلم</div>
+      <h2 class="section-title">رود ماب لكل مجال</h2>
+      <p class="section-sub">مسارات تعليمية مصممة بعناية تأخذك من الصفر للاحتراف، مع تتبع تقدمك خطوة بخطوة.</p>
+      <br><br>
+      <button class="btn-primary">اكتشف مساراتك ←</button>
+    </div>
+    <div class="roadmap-preview reveal">
+      <div style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem; font-weight:600;">مسار تصميم UI/UX — تقدمك: 60%</div>
+      <div class="roadmap-node node-done">
+        <div class="node-icon">✅</div>
+        <div class="node-info">
+          <div class="node-title">أساسيات التصميم</div>
+          <div class="node-sub">الألوان، الخطوط، المساحات</div>
+        </div>
+        <div class="node-progress progress-done">مكتمل</div>
+      </div>
+      <div class="roadmap-node node-done">
+        <div class="node-icon">✅</div>
+        <div class="node-info">
+          <div class="node-title">Figma من الصفر</div>
+          <div class="node-sub">أدوات التصميم الأساسية</div>
+        </div>
+        <div class="node-progress progress-done">مكتمل</div>
+      </div>
+      <div class="roadmap-node node-active">
+        <div class="node-icon">⚡</div>
+        <div class="node-info">
+          <div class="node-title">تصميم المكونات</div>
+          <div class="node-sub">Design Systems و Component Libraries</div>
+          <div class="progress-bar"><div class="progress-fill fill-active"></div></div>
+        </div>
+        <div class="node-progress progress-active">60%</div>
+      </div>
+      <div class="roadmap-node node-todo">
+        <div class="node-icon">🔒</div>
+        <div class="node-info">
+          <div class="node-title">UX Research</div>
+          <div class="node-sub">User Testing و Personas</div>
+        </div>
+        <div class="node-progress" style="color:var(--text2);">قريباً</div>
+      </div>
+      <div class="roadmap-node node-todo">
+        <div class="node-icon">🔒</div>
+        <div class="node-info">
+          <div class="node-title">مشروع التخرج</div>
+          <div class="node-sub">بناء بورتفوليو كامل</div>
+        </div>
+        <div class="node-progress" style="color:var(--text2);">قريباً</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header reveal">
+    <div class="section-tag">البورتفوليو</div>
+    <h2 class="section-title">اعرض شغلك للعالم</h2>
+    <p class="section-sub">منصة لعرض أعمالك واكتساب عملاء جدد من مجتمع الفريلانسرز</p>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="port-card big">
+      <div class="port-thumb t1">🌐</div>
+      <div class="port-info">
+        <div class="port-name">موقع متجر إلكتروني متكامل</div>
+        <div class="port-user">أحمد الدسوقي • تصميم ويب</div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-thumb t2">🎨</div>
+      <div class="port-info">
+        <div class="port-name">هوية بصرية</div>
+        <div class="port-user">سارة أحمد</div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-thumb t3">📱</div>
+      <div class="port-info">
+        <div class="port-name">تطبيق موبايل</div>
+        <div class="port-user">محمد علي</div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-thumb t4">✍️</div>
+      <div class="port-info">
+        <div class="port-name">محتوى تسويقي</div>
+        <div class="port-user">نور حسن</div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-thumb t5">💡</div>
+      <div class="port-info">
+        <div class="port-name">UI Kit كامل</div>
+        <div class="port-user">خالد يوسف</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="reveal">
+    <h2>جاهز تبدأ رحلتك؟</h2>
+    <p>انضم لآلاف الفريلانسرز العرب اللي بيستخدموا FreelanceHub</p>
+    <div class="cta-btns">
+      <button class="btn-primary">سجّل مجاناً الآن ←</button>
+      <button class="btn-secondary">تواصل معنا</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">FreelanceHub</span>
+  <p>© 2025 FreelanceHub — منصتك الشاملة للفريلانسرز العرب 🚀</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('follower');
+  let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX - 6 + 'px';
+    cursor.style.top = mouseY - 6 + 'px';
+  });
+
+  function animateFollower() {
+    followerX += (mouseX - followerX) * 0.15;
+    followerY += (mouseY - followerY) * 0.15;
+    follower.style.left = followerX - 18 + 'px';
+    follower.style.top = followerY - 18 + 'px';
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Counter animation
+  function animateCounter(el, target) {
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = Math.floor(current).toLocaleString('ar');
+    }, 30);
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-target]').forEach(el => {
+          animateCounter(el, parseInt(el.dataset.target));
+        });
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statsObserver.observe(heroStats);
+
+  // Chatbot interaction
+  const replies = {
+    'تصميم جرافيك': 'ممتاز! 🎨 التصميم مجال رائع. هل عندك خبرة سابقة أو بتبدأ من الصفر؟',
+    'برمجة ويب': 'اختيار ذكي! 💻 هل تفضل Front-end أو Back-end أو Full-stack؟',
+    'تسويق رقمي': 'التسويق الرقمي مجال في طلب كبير جداً! 📱 هل بيهمك سوشيال ميديا أو SEO؟',
+    'كتابة محتوى': 'الكتابة سلاح قوي! ✍️ هل بتفضل المحتوى العربي أو الإنجليزي؟'
+  };
+
+  function addMsg(btn, text) {
+    const body = document.getElementById('chatBody');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg msg-user'; userMsg.textContent = text;
+    body.appendChild(userMsg);
+    setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'msg msg-bot';
+      botMsg.textContent = replies[text] || 'سؤال ممتاز! 🤔 دعني أفكر في أفضل مسار ليك...';
+      body.appendChild(botMsg);
+      body.scrollTop = body.scrollHeight;
+    }, 600);
+    body.scrollTop = body.scrollHeight;
+    document.querySelector('.chat-options').style.display = 'none';
+  }
+
+  function sendMsg() {
+    const input = document.getElementById('chatInput');
+    if (!input.value.trim()) return;
+    addMsg(null, input.value);
+    input.value = '';
+  }
+
+  document.getElementById('chatInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendMsg();
+  });
+</script>
+</body>
+</html>
